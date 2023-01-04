@@ -1,0 +1,640 @@
+Q.1]Create a Simple Application Which Send ―Hi message from one activity to another
+with help of Button (Use Intent).
+Ans:
+1st XML FILE
+-------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".first_activity">
+
+	<EditText
+		android:id="@+id/send_text_id"
+		android:layout_width="300dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="40dp"
+		android:layout_marginTop="20dp"
+		android:hint="Input"
+		android:textSize="25dp"
+		android:textStyle="bold" />
+
+	<Button
+		android:id="@+id/send_button_id"
+		android:layout_width="wrap_content"
+		android:layout_height="40dp"
+		android:layout_marginLeft="150dp"
+		android:layout_marginTop="150dp"
+		android:text="send"
+		android:textStyle="bold" />
+</RelativeLayout>
+--------------------------------------------------------------------
+1st JAVA FILE
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class first_activity extends AppCompatActivity {
+
+	// define the variable
+	Button send_button;
+	EditText send_text;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_first_activity);
+		
+		send_button = findViewById(R.id.send_button_id);
+		send_text = findViewById(R.id.send_text_id);
+
+		// add the OnClickListener in sender button after clicked this button following Instruction will run
+		send_button.setOnClickListener(v -> {
+			// get the value which input by user in EditText and convert it to string
+			String str = send_text.getText().toString();
+			// Create the Intent object of this class Context() to Second_activity class
+			Intent intent = new Intent(getApplicationContext(), Second_activity.class);
+			// now by putExtra method put the value in key, value pair key is
+			// message_key by this key we will receive the value, and put the string
+			intent.putExtra("message_key", str);
+			// start the Intent
+			startActivity(intent);
+		});
+	}
+}
+--------------------------------------------------------------------------------------------------------------
+2nd XML FILE
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="org.geeksforgeeks.navedmalik.sendthedata.Second_activity">
+
+	<TextView
+		android:id="@+id/received_value_id"
+		android:layout_width="300dp"
+		android:layout_height="50dp"
+		android:layout_marginLeft="40dp"
+		android:layout_marginTop="20dp"
+		android:textSize="40sp"
+		android:textStyle="bold"
+		android:layout_marginStart="40dp" />
+</RelativeLayout>
+--------------------------------------------------------------------------------------
+2nd JAVA FILE
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Second_activity extends AppCompatActivity {
+
+	TextView receiver_msg;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_second_activity);
+
+		receiver_msg = findViewById(R.id.received_value_id);
+		// create the get Intent object
+		Intent intent = getIntent();
+		// receive the value by getStringExtra() method and
+		// key must be same which is send by first activity
+		String str = intent.getStringExtra("message_key");
+		// display the string into textView
+		receiver_msg.setText(str);
+	}
+}
+****************************************************************************************************************
+Q.2]Create First Activity to accept information like Student First Name, Middle Name,
+Last Name, Date of birth, Address, Email ID and display all information on Second Activity
+when user click on the Submit button. 
+Ans:
+-------------------------------------------------
+strings.XML FILE(1)
+------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Form</string>
+    <string name="display">Display</string>
+    <string name="app_name">ActivityDemo</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="gender">Gender</string>
+    <string name="submit">Submit</string>   
+</resources>
+---------------------------------------------------------------------------
+form.XML FILE(2)
+-----------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+ 
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/name" />
+ 
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/nameText"
+        android:ems="10" android:inputType="text"/>
+ 
+    <TextView
+        android:id="@+id/ageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nameText"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="26dp"
+        android:text="@string/age" />
+ 
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/ageText"
+        android:ems="10" android:inputType="text"/>
+ 
+    <TextView
+        android:id="@+id/genderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gridLayout1"
+        android:layout_below="@+id/age"
+        android:layout_marginTop="19dp"
+        android:text="@string/gender" />
+     
+    <GridLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ageText"
+        android:layout_below="@+id/age"
+        android:layout_marginTop="44dp" >
+ 
+        <RadioGroup
+            android:id="@+id/gender"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+ 
+            <RadioButton
+                android:id="@+id/femaleRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/female" />
+ 
+            <RadioButton
+                android:id="@+id/maleRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/male" />
+        </RadioGroup>
+    </GridLayout>
+ 
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/gridLayout1"
+        android:layout_below="@+id/gridLayout1"
+        android:layout_marginTop="21dp"
+        android:text="@string/submit" />
+</RelativeLayout>
+-------------------------------------------------------------------------------------
+display.XML FILE(3)
+------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnCount="3" >
+ 
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_column="1"
+            android:layout_gravity="left"
+            android:layout_row="1"
+            android:text="@string/name" />
+ 
+        <TextView
+            android:id="@+id/nameValue"
+            android:layout_column="2"
+            android:layout_gravity="left"
+            android:layout_row="1"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+ 
+        <TextView
+            android:id="@+id/ageText"
+            android:layout_column="1"
+            android:layout_gravity="left"
+            android:layout_row="3"
+            android:text="@string/age" />
+ 
+        <TextView
+            android:id="@+id/ageValue"
+            android:layout_column="2"
+            android:layout_gravity="left"
+            android:layout_row="3"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+ 
+        <TextView
+            android:id="@+id/genderText"
+            android:layout_column="1"
+            android:layout_gravity="left"
+            android:layout_row="5"
+            android:text="@string/gender" />
+ 
+        <TextView
+            android:id="@+id/genderValue"
+            android:layout_column="2"
+            android:layout_gravity="left"
+            android:layout_row="5"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+ 
+        <Space
+            android:layout_width="21dp"
+            android:layout_height="1dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+ 
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="21dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+ 
+        <Space
+            android:layout_width="64dp"
+            android:layout_height="1dp"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+ 
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="2" />
+ 
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="4" />
+    </GridLayout>
+---------------------------------------------------------------------------------
+FormActivity.JAVA FILE(1)
+--------------------------------------------------------------------------
+
+package com.theopentutorials.android;
+ 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+ 
+public class FormActivity extends Activity implements OnClickListener {
+    Button button;
+    RadioGroup genderRadioGroup;
+    EditText name;
+    EditText age;
+ 
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.form);
+ 
+        //Get the ids of view objects
+        findAllViewsId();
+         
+        button.setOnClickListener(this);
+    }
+ 
+    private void findAllViewsId() {
+        button = (Button) findViewById(R.id.submit);
+        name = (EditText) findViewById(R.id.name);
+        age = (EditText) findViewById(R.id.age);
+        genderRadioGroup = (RadioGroup) findViewById(R.id.gender);
+    }
+     
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), DisplayActivity.class);
+        //Create a bundle object
+        Bundle b = new Bundle();
+         
+        //Inserts a String value into the mapping of this Bundle
+        b.putString("name", name.getText().toString());
+        b.putString("age", age.getText().toString());
+        int id = genderRadioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = (RadioButton) findViewById(id);
+        b.putString("gender", radioButton.getText().toString());
+         
+        //Add the bundle to the intent.
+        intent.putExtras(b);
+         
+        //start the DisplayActivity
+        startActivity(intent);
+    }
+}
+----------------------------------------------------------------------------------------------------
+DisplayActivity.JAVA FILE(2)
+-------------------------------------------------------------------------------
+
+package com.theopentutorials.android;
+ 
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+ 
+public class DisplayActivity extends Activity {
+ 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+            setContentView(R.layout.display);
+ 
+        Bundle b = getIntent().getExtras();
+        TextView name = (TextView) findViewById(R.id.nameValue);
+        TextView age = (TextView) findViewById(R.id.ageValue);
+        TextView gender = (TextView) findViewById(R.id.genderValue);
+         
+        name.setText(b.getCharSequence("name"));
+        age.setText(b.getCharSequence("age"));
+        gender.setText(b.getCharSequence("gender"));
+    }
+}
+--------------------------------------------------------------------------------------
+AndroidManifest.XML FILE(4)
+-----------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.theopentutorials.android"
+    android:versionCode="1"
+    android:versionName="1.0" >
+ 
+    <uses-sdk android:minSdkVersion="15" />
+ 
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".FormActivity"
+            android:label="@string/hello" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+ 
+        <activity
+            android:name=".DisplayActivity"
+            android:label="@string/display" >
+        </activity>
+    </application>
+</manifest>
+**************************************************************************************************************
+Q.3]Create Table project (pno, p_name, ptype, duration) and employee (id, e_name,
+qulification, joindate) Project – employee have many to many relationship. Using the
+database perform the following operation.
+1) Add a new record into the table.
+2) Accept a project name from the user and display information of employees working on the
+project. 
+
+Ans:
+----------------------------------------------------------------------------
+MainActivity.java(1)
+-----------------------------------------------------------------------
+package com.example.databasedemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+  EditText e1,e2;
+
+Button b1;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        e1=(EditText)findViewById(R.id.editText);
+        e2=(EditText)findViewById(R.id.editText2);
+        b1=(Button)findViewById(R.id.button);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name=e1.getText().toString();
+                String des=e2.getText().toString();
+                DBHandler db=new DBHandler(MainActivity.this);
+                db.insert(name,des);
+                Toast.makeText(getApplicationContext(),"Inserted SuccessFully",Toast.LENGTH_LONG).show();
+                Intent i=new Intent(MainActivity.this,Second.class);
+              //startActivity(i);
+            }
+        });
+    }
+}
+------------------------------------------------------------------------------------------------------------------
+Second.java(2)
+------------------------------------------------------------------------------------
+package com.example.databasedemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Second extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        DBHandler db=new DBHandler(this);
+        ArrayList<HashMap<String,String>> list=db.getDetail();
+        TextView t=(TextView) findViewById(R.id.t1);
+        t.setText(list.indexOf(1));
+    }
+}
+----------------------------------------------------------------------------------------------
+DBHandler.java(3)
+-----------------------------------------------------------------------------------------------------
+package com.example.databasedemo;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class DBHandler extends SQLiteOpenHelper {
+
+    private final static String DB_NAME="EMP";
+    private final static String TABLE_NAME="emp_detail";
+    private final static String KEY_NAME="emp_name";
+    private final static String KEY_DES="des";
+     DBHandler(Context context)
+  {
+      super(context,DB_NAME,null,1);
+  }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String Query="create table "+TABLE_NAME+"("+KEY_NAME+" TEXT,"+KEY_DES+" TEXT)";
+        db.execSQL(Query);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+onCreate(db);
+    }
+    public void insert(String name,String  des)
+    {
+       SQLiteDatabase db=getWritableDatabase();
+        ContentValues cv=new ContentValues();
+        cv.put(KEY_NAME,name);
+        cv.put(KEY_DES,des);
+        long newId=db.insert(TABLE_NAME,null,cv);
+        db.close();
+    }
+    public ArrayList<HashMap<String,String>> getDetail()
+    {
+        ArrayList<HashMap<String,String>> users=new ArrayList<>();
+        SQLiteDatabase db=getWritableDatabase();
+        String Query="Select * from "+TABLE_NAME;
+        Cursor cursor=db.rawQuery(Query,null);
+        HashMap<String,String> user=new HashMap<>();
+
+        while(cursor.moveToNext())
+        {
+            user.put("name",cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+            user.put("des",cursor.getString(cursor.getColumnIndex(KEY_DES)));
+        }
+        users.add(user);
+        return users;
+    }
+}
+-------------------------------------------------------------------------------------------------------
+activity_main.xml
+----------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+-----------------------------------------------------------------------------------------------
+activity_second.xml
+------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Second">
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
